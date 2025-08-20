@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>haha</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, black, white);
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 120vh;
+            margin: 0;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+        }
+
+        .droptarget {
+            width: 150px;
+            height: 150px;
+            border: 1px solid black;
+            border-radius: 12px;
+            margin: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.3s ease;
+            overflow: hidden;
+        }
+
+        .droptarget.hover {
+            border-color: black;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        #dragtarget {
+            width: 125px;
+            height: 125px;
+            border-radius: 12px;
+            cursor: grab;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            transition: transform 0.2s;
+        }
+
+        #dragtarget:active {
+            cursor: grabbing;
+            transform: scale(1.05);
+        }
+
+        #demo {
+            margin-top: 10px;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column; 
+            gap: 10px;
+            justify-content: center; 
+        }
+
+        button {
+            margin-top: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 8px;
+            background: #fff;
+            color: #333;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        button.hover {
+            background: #333;
+        }
+
+    </style>
+</head>
+<body>
+
+    <h1>Hello, it's me Misty!</h1>
+    <div class="container">
+        <div class="droptarget" id="droptarget1" ondrop="drop(event)" ondragover="allowDrop(event)">
+            <img src="misty.jfif" id="dragtarget" ondragstart="dragStart(event)" alt="Drag Photo">
+        </div>
+        <div class="droptarget" id="droptarget2" ondrop="drop(event)" ondragover="allowDrop(event)">
+        </div>
+    </div>
+
+    <button onclick="reset()">Reset</button>
+    <p id="demo"></p>
+
+    <script>
+        let originalParent = document.getElementById("droptarget1");
+
+        function dragStart(event) {
+            event.dataTransfer.setData("text/plain", event.target.id);
+        }
+
+        function allowDrop(event) {
+            event.preventDefault();
+        }
+
+        function dragging(event) {
+            document.getElementById("demo").innerHTML = "The p element is being dragged";
+        }
+
+        function drop(event) {
+            event.preventDefault();
+            const data = event.dataTransfer.getData("text/plain");
+            const draggedElement = document.getElementById(data);
+            if (draggedElement) {
+                event.target.appendChild(draggedElement);
+            }
+        }
+
+        function reset() {
+            const draggedElement = document.getElementById("dragtarget");
+            originalParent.appendChild(draggedElement);  // Reset to the original container
+            document.getElementById("droptarget2").innerHTML = '';  // Clear any dropped content
+        }
+    </script>
+
+</body>
+</html>
